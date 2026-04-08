@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estado Actual del Personal – Comfamiliar Risaralda</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #ffffff;
+    color: #2C2C2A;
+    padding: 28px 32px;
+    max-width: 900px;
+    margin: auto;
+  }
+  h1 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #185FA5;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 16px;
+    border-left: 4px solid #185FA5;
+    padding-left: 10px;
+  }
+  .ahorro-banner {
+    background: #E6F1FB;
+    border-left: 4px solid #185FA5;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ahorro-label { font-size: 11px; color: #185FA5; margin-bottom: 2px; }
+  .ahorro-value { font-size: 20px; font-weight: 700; color: #0C447C; }
+  .ahorro-divider {
+    border-left: 1px solid #85B7EB;
+    padding-left: 12px;
+    font-size: 11px;
+    color: #185FA5;
+    line-height: 1.6;
+  }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .metric {
+    background: #E6F1FB;
+    border-radius: 8px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .metric-label { font-size: 10px; color: #185FA5; margin-bottom: 4px; }
+  .metric-value { font-size: 24px; font-weight: 700; color: #0C447C; }
+  .metric-sub { font-size: 9px; color: #378ADD; margin-top: 3px; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #185FA5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .chart-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 260px;
+  }
+  .legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #444441;
+  }
+  .legend-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .legend-label { flex: 1; }
+  .legend-count {
+    font-weight: 700;
+    font-size: 13px;
+    color: #0C447C;
+  }
+  .nota {
+    font-size: 11px;
+    color: #185FA5;
+    background: #E6F1FB;
+    border-radius: 6px;
+    padding: 10px 14px;
+    line-height: 1.6;
+  }
+  .nota strong { color: #0C447C; }
+  .footer {
+    margin-top: 16px;
+    font-size: 10px;
+    color: #85B7EB;
+    text-align: right;
+    border-top: 0.5px solid #B5D4F4;
+    padding-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Estado actual del personal — Comfamiliar Risaralda</h1>
+
+<div class="ahorro-banner">
+  <div>
+    <div class="ahorro-label">Ahorro en indemnizaciones logrado</div>
+    <div class="ahorro-value">$609 millones de pesos</div>
+  </div>
+  <div class="ahorro-divider">
+    14 personas aceptaron<br>traslado a <strong>Integra</strong>
+  </div>
+</div>
+
+<div class="metric-grid">
+  <div class="metric">
+    <div class="metric-label">Total en proceso</div>
+    <div class="metric-value">95</div>
+    <div class="metric-sub">con definición activa</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Sin sindicato</div>
+    <div class="metric-value">70</div>
+    <div class="metric-sub">73.7% del total</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">SintraComfamiliar</div>
+    <div class="metric-value">18</div>
+    <div class="metric-sub">18.9% del total</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">SintraSalud</div>
+    <div class="metric-value">7</div>
+    <div class="metric-sub">7.4% del total</div>
+  </div>
+</div>
+
+<div class="section-title">Distribución por estado laboral — corte 31 de marzo 2025</div>
+
+<div class="chart-section">
+  <div class="chart-wrapper">
+    <canvas id="donutChart"></canvas>
+  </div>
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#042C53;"></span>
+      <span class="legend-label">Pendiente definir situación</span>
+      <span class="legend-count">32</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#0C447C;"></span>
+      <span class="legend-label">Funcionario reubicado</span>
+      <span class="legend-count">29</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#185FA5;"></span>
+      <span class="legend-label">Traslado a Integra</span>
+      <span class="legend-count">14</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#378ADD;"></span>
+      <span class="legend-label">Terminación de contrato</span>
+      <span class="legend-count">12</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#B5D4F4;"></span>
+      <span class="legend-label">Otros (fueros, renuncias, etc.)</span>
+      <span class="legend-count">8</span>
+    </div>
+  </div>
+</div>
+
+<div class="nota">
+  Actualmente faltan <strong>38 personas</strong> por definir su situación laboral,
+  de las cuales <strong>22 NO aceptaron</strong> el traslado a Integra.
+</div>
+
+<div class="footer">Corte: 31 de marzo de 2025 · Comfamiliar Risaralda</div>
+
+<script>
+new Chart(document.getElementById('donutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Pendiente definir', 'Reubicado', 'Traslado Integra', 'Terminación', 'Otros'],
+    datasets: [{
+      data: [32, 29, 14, 12, 8],
+      backgroundColor: ['#042C53','#0C447C','#185FA5','#378ADD','#B5D4F4'],
+      borderWidth: 3,
+      borderColor: '#ffffff',
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '62%',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ' ' + ctx.parsed + ' personas (' + Math.round(ctx.parsed / 95 * 100) + '%)'
+        }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
